@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.2
+// @version      0.3
 // @description  Buys stocks and visit the shrine for you everyday
 // @author       Kiang Kuang
 // @include      *
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
+// @grant        GM_openInTab
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js
 // ==/UserScript==
@@ -23,7 +24,7 @@
         visitShrine: true,
     };
 
-    //reset();
+    // reset();
 
     var boughtStocks = GM_getValue('boughtStocks', 0);
     var buyingStocks = GM_getValue('buyingStocks', false);
@@ -70,7 +71,7 @@
                         if (company) {
                             GM_setValue('buyingStocks', true);
                             GM_setValue('stockPrice', price);
-                            window.location.href = "http://www.neopets.com/stockmarket.phtml?type=buy&ticker=" + company;
+                            GM_openInTab("http://www.neopets.com/stockmarket.phtml?type=buy&ticker=" + company, true);
                             break;
                         }
                     }
@@ -93,7 +94,7 @@
     }
 
     function goToShrine() {
-        window.location.href = 'http://www.neopets.com/desert/shrine.phtml';
+        GM_openInTab('http://www.neopets.com/desert/shrine.phtml', true);
     }
 
     function clickShrine() {
