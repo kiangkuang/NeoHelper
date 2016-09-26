@@ -11,6 +11,6 @@ Install a UserScript manager for your browser
 > Note: After installation (which may require restarting your browser), you are now ready to install userscripts.
 
 ### Step 2: UserScript
-* [Install](https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js) from *github.com*
+[Install](https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js) from *github.com*
 
 > Note: Click `Install`
