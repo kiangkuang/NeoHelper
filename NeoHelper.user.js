@@ -2,17 +2,22 @@
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
 // @version      0.4
-// @description  Buys stocks, visit the shrine and trudy's surprise for you everyday
 // @author       Kiang Kuang
+// @description  Buys stocks, visit the shrine and trudy's surprise for you everyday
+// @homepage     https://github.com/kiangkuang/NeoHelper
+// @supportURL   https://github.com/kiangkuang/NeoHelper/issues
+// @updateURL    https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js
+// @downloadURL  https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js
 // @include      *
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js
+// @connect      neopets.com
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js
-// @connect      neopets.com
+// @noframes
 // ==/UserScript==
 
 (function() {
