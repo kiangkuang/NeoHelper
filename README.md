@@ -1,5 +1,11 @@
 # NeoHelper
-UserScript to help you buy stocks and visit the shrine daily
+UserScript to help you to
+* Buy stocks daily
+* Visit Clotzan's Shrine daily
+* Visit Trudy's Surprise daily
+* Play Potato Counter
+* Take items from Money Tree
+
 ##Install
 ### Step 1: UserScript Manager
 Install a UserScript manager for your browser
@@ -12,5 +18,3 @@ Install a UserScript manager for your browser
 
 ### Step 2: UserScript
 [Install](https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js) from *github.com*
-
-> Note: Click `Install`

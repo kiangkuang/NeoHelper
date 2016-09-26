@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.4
+// @version      0.5
 // @author       Kiang Kuang
-// @description  Buys stocks, visit the shrine and trudy's surprise for you everyday
+// @description  Helps you to buy stocks daily, visit Clotzan's Shrine daily, visit Trudy's Surprise daily, play Potato Counter, take items from Money Tree
 // @homepage     https://github.com/kiangkuang/NeoHelper
 // @supportURL   https://github.com/kiangkuang/NeoHelper/issues
 // @updateURL    https://github.com/kiangkuang/NeoHelper/raw/master/NeoHelper.user.js
@@ -30,6 +30,8 @@
         stocksAmount: 1000,
         visitShrine: true,
         trudysSurprise: true,
+        potatoCounter: true,
+        moneyTree: true,
     };
 
     var nst = moment().utcOffset(-7);
@@ -51,13 +53,13 @@
     if (config.visitShrine) {
         if (moment(GM_getValue('clickedShrine', 0)).isBefore(nst, 'day') && !GM_getValue('clickingShrine', false)) {
             GM_setValue('clickingShrine', true);
-            goToShrine();
+            GM_openInTab('http://www.neopets.com/desert/shrine.phtml', true);
             return;
         }
         if (window.location.pathname == '/desert/shrine.phtml' && GM_getValue('clickingShrine', false)) {
             GM_setValue('clickingShrine', false);
             GM_setValue('clickedShrine', moment().utcOffset(-7).format());
-            clickShrine();
+            $('.content form:nth-child(3)').submit();
             return;
         }
     }
@@ -65,7 +67,28 @@
     if (config.trudysSurprise) {
         if (moment(GM_getValue('trudysSurprise', 0)).isBefore(nst, 'day')) {
             GM_setValue('trudysSurprise', moment().utcOffset(-7).format());
-            goToTrudysSurprise();
+            GM_openInTab('http://www.neopets.com/trudys_surprise.phtml', true);
+            return;
+        }
+    }
+
+    if (config.potatoCounter) {
+        if (window.location.pathname == '/medieval/potatocounter.phtml') {
+            if ($('.content input[name="guess"]').length) {
+                $('.content input[name="guess"]').val($('.content table img').length);
+                $('.content form').submit();
+            }
+            return;
+        }
+    }
+
+    if (config.moneyTree) {
+        if (window.location.pathname == '/donations.phtml') {
+            window.location.href = $('.content tr:last-child td:last-child div a').attr('href');
+            return;
+        }
+        if (window.location.pathname == '/takedonation_new.phtml') {
+            window.location.href = '/donations.phtml';
             return;
         }
     }
@@ -108,18 +131,6 @@
         $('.content form').submit();
     }
 
-    function goToShrine() {
-        GM_openInTab('http://www.neopets.com/desert/shrine.phtml', true);
-    }
-
-    function clickShrine() {
-        $('.content form:nth-child(3)').submit();
-    }
-
-    function goToTrudysSurprise() {
-        GM_openInTab('http://www.neopets.com/trudys_surprise.phtml', true);
-    }
-
     function reset() {
         GM_deleteValue('boughtStocks');
         GM_deleteValue('buyingStocks');
@@ -131,18 +142,3 @@
 
     // reset();
 })();
-
-/* TODO
-if (window.location.pathname == '/medieval/potatocounter.phtml') {
-  //alert($('#content > table > tbody > tr > td.content > table > tbody > tr > td > img').length);
-  $('#content > table > tbody > tr > td.content > center:nth-child(7) > form > input[type="text"]:nth-child(2)').val($('#content > table > tbody > tr > td.content > table > tbody > tr > td > img').length);
-  $('#content > table > tbody > tr > td.content > center:nth-child(7) > form').submit();
-}
-
-if (window.location.pathname == '/donations.phtml') {
-  window.location.href = $('#mt-content > table > tbody > tr:last-child > td:last-child > div > a').attr('href');
-} else if (window.location.pathname == '/takedonation_new.phtml') {
-  console.log(window.location.pathname);
-  window.location.href = '/donations.phtml';
-}
-*/
