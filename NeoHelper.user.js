@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.5
+// @version      0.5.1
 // @author       Kiang Kuang
 // @description  Helps you to buy stocks daily, visit Clotzan's Shrine daily, visit Trudy's Surprise daily, play Potato Counter, take items from Money Tree
 // @homepage     https://github.com/kiangkuang/NeoHelper
@@ -37,7 +37,7 @@
     var nst = moment().utcOffset(-7);
 
     if (config.buyStocks) {
-        if (moment(GM_getValue('boughtStocks', 0)).isBefore(nst, 'day') && !GM_getValue('buyingStocks', false)) {
+        if (moment(GM_getValue('boughtStocks', 0)).utcOffset(-7).isBefore(nst, 'day') && !GM_getValue('buyingStocks', false)) {
             GM_setValue('buyingStocks', true);
             goToStocks();
             return;
@@ -51,7 +51,7 @@
     }
 
     if (config.visitShrine) {
-        if (moment(GM_getValue('clickedShrine', 0)).isBefore(nst, 'day') && !GM_getValue('clickingShrine', false)) {
+        if (moment(GM_getValue('clickedShrine', 0)).utcOffset(-7).isBefore(nst, 'day') && !GM_getValue('clickingShrine', false)) {
             GM_setValue('clickingShrine', true);
             GM_openInTab('http://www.neopets.com/desert/shrine.phtml', true);
             return;
@@ -65,7 +65,7 @@
     }
 
     if (config.trudysSurprise) {
-        if (moment(GM_getValue('trudysSurprise', 0)).isBefore(nst, 'day')) {
+        if (moment(GM_getValue('trudysSurprise', 0)).utcOffset(-7).isBefore(nst, 'day')) {
             GM_setValue('trudysSurprise', moment().utcOffset(-7).format());
             GM_openInTab('http://www.neopets.com/trudys_surprise.phtml', true);
             return;
