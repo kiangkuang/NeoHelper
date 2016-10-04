@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.5.1
+// @version      0.5.2
 // @author       Kiang Kuang
 // @description  Helps you to buy stocks daily, visit Clotzan's Shrine daily, visit Trudy's Surprise daily, play Potato Counter, take items from Money Tree
 // @homepage     https://github.com/kiangkuang/NeoHelper
@@ -102,7 +102,8 @@
 
                 if ($(result).find('.welcomeContent').length === 0) {
                     for (var price = config.minPrice; price <= config.maxPrice; price++) {
-                        var company = $($(result).find('.content td:nth-child(6):contains(' + price + ')').siblings()[1]).find('a').text();
+                        var companies = $(result).find('.content td:nth-child(6):contains(' + price + ')').siblings();
+                        var company = $(companies[getRandomCompanyIndex(companies.length)]).find('a').text();
                         if (company) {
                             GM_setValue('stockPrice', price);
                             GM_openInTab("http://www.neopets.com/stockmarket.phtml?type=buy&ticker=" + company, true);
@@ -129,6 +130,10 @@
         }
 
         $('.content form').submit();
+    }
+
+    function getRandomCompanyIndex(num) {
+        return Math.floor(Math.random() * num / 6) * 6 + 1;
     }
 
     function reset() {
