@@ -29,6 +29,7 @@
         maxPrice: 17,
         stocksAmount: 1000,
         visitShrine: true,
+        fishing: true,
         trudysSurprise: true,
         potatoCounter: true,
         moneyTree: true,
@@ -60,6 +61,20 @@
             GM_setValue('clickingShrine', false);
             GM_setValue('clickedShrine', moment().utcOffset(-7).format());
             $('.content form:nth-child(3)').submit();
+            return;
+        }
+    }
+
+    if (config.fishing) {
+        if (moment(GM_getValue('clickedFishing', 0)).utcOffset(-7).isBefore(nst, 'day') && !GM_getValue('clickingFishing', false)) {
+            GM_setValue('clickingFishing', true);
+            GM_openInTab('http://www.neopets.com/water/fishing.phtml', true);
+            return;
+        }
+        if (window.location.pathname == '/water/fishing.phtml' && GM_getValue('clickingFishing', false)) {
+            GM_setValue('clickingFishing', false);
+            GM_setValue('clickedFishing', moment().utcOffset(-7).format());
+            $('.content form')[0].submit();
             return;
         }
     }
@@ -141,6 +156,8 @@
         GM_deleteValue('buyingStocks');
         GM_deleteValue('clickedShrine');
         GM_deleteValue('clickingShrine');
+        GM_deleteValue('clickedFishing');
+        GM_deleteValue('clickingFishing');
         GM_deleteValue('stockPrice');
         GM_deleteValue('trudysSurprise');
     }
