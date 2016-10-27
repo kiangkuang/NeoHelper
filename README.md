@@ -1,10 +1,10 @@
 # NeoHelper
 UserScript to help you to
-* Buy stocks daily
-* Visit Clotzan's Shrine daily
-* Visit Trudy's Surprise daily
-* Play Potato Counter
-* Take items from Money Tree
+* Buy [stocks](http://www.neopets.com/stockmarket.phtml?type=list&full=true) daily
+* Visit [Clotzan's Shrine](www.neopets.com/desert/shrine.phtml) daily
+* Visit [Trudy's Surprise](www.neopets.com/trudys_surprise.phtml) daily
+* Play [Potato Counter](www.neopets.com/medieval/potatocounter.phtml)
+* Take items from [Money Tree](www.neopets.com/donations.phtml)
 
 ##Install
 ### Step 1: UserScript Manager
