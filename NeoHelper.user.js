@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.5.3
+// @version      0.6.0
 // @author       Kiang Kuang
 // @description  Helps you to buy stocks daily, visit Coltzan's Shrine daily, visit Trudy's Surprise daily, play Potato Counter, take items from Money Tree
 // @homepage     https://github.com/kiangkuang/NeoHelper
@@ -31,6 +31,7 @@
         visitShrine: true,
         fishing: true,
         trudysSurprise: true,
+        advent: true,
         potatoCounter: true,
         moneyTree: true,
     };
@@ -74,6 +75,20 @@
         if (window.location.pathname == '/water/fishing.phtml' && GM_getValue('clickingFishing', false)) {
             GM_setValue('clickingFishing', false);
             GM_setValue('clickedFishing', moment.tz('America/Los_Angeles').format());
+            $('.content form')[0].submit();
+            return;
+        }
+    }
+
+    if (config.advent && nst.month() == 11) {
+        if (moment.tz(GM_getValue('clickedAdvent', 0), 'America/Los_Angeles').isBefore(nst, 'day') && !GM_getValue('clickingAdvent', false)) {
+            GM_setValue('clickingAdvent', true);
+            GM_openInTab('http://www.neopets.com/winter/adventcalendar.phtml', true);
+            return;
+        }
+        if (window.location.pathname == '/winter/adventcalendar.phtml' && GM_getValue('clickingAdvent', false)) {
+            GM_setValue('clickingAdvent', false);
+            GM_setValue('clickedAdvent', moment.tz('America/Los_Angeles').format());
             $('.content form')[0].submit();
             return;
         }
