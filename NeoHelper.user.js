@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoHelper
 // @namespace    https://github.com/kiangkuang
-// @version      0.6.0
+// @version      0.6.5
 // @author       Kiang Kuang
 // @description  Helps you to buy stocks daily, visit Coltzan's Shrine daily, visit Trudy's Surprise daily, play Potato Counter, take items from Money Tree
 // @homepage     https://github.com/kiangkuang/NeoHelper
@@ -41,6 +41,10 @@
     if (config.buyStocks) {
         if (moment.tz(GM_getValue('boughtStocks', 0), 'America/Los_Angeles').isBefore(nst, 'day') && !GM_getValue('buyingStocks', false)) {
             GM_setValue('buyingStocks', true);
+            GM_openInTab('http://www.neopets.com/stockmarket.phtml?type=list&full=true', true);
+            return;
+        }
+        if (document.URL.indexOf('/stockmarket.phtml?type=list&full=true') > -1 && GM_getValue('buyingStocks', false)) {
             goToStocks();
             return;
         }
@@ -124,30 +128,15 @@
     }
 
     function goToStocks() {
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: "http://www.neopets.com/stockmarket.phtml?type=list&full=true",
-            onload: function(response) {
-                var result = $.parseHTML(response.responseText);
-
-                if ($(result).find('.welcomeContent').length === 0) {
-                    for (var price = config.minPrice; price <= config.maxPrice; price++) {
-                        var companies = $(result).find('.content td:nth-child(6):contains(' + price + ')').siblings();
-                        var company = $(companies[getRandomCompanyIndex(companies.length)]).find('a').text();
-                        if (company) {
-                            GM_setValue('stockPrice', price);
-                            GM_openInTab("http://www.neopets.com/stockmarket.phtml?type=buy&ticker=" + company, true);
-                            return;
-                        }
-                    }
-                    GM_setValue('buyingStocks', false);
-                    GM_setValue('boughtStocks', moment.tz('America/Los_Angeles').format());
-                    console.error("NeoHelper: No stocks within price range to buy!");
-                } else {
-                    console.error("NeoHelper: Not logged in!");
-                }
+        for (var price = config.minPrice; price <= config.maxPrice; price++) {
+            var companies = $('.content td:nth-child(6):contains(' + price + ')').siblings();
+            var company = $(getRandomCompany(companies)).find('a').text();
+            if (company) {
+                GM_setValue('stockPrice', price);
+                window.location.href = "http://www.neopets.com/stockmarket.phtml?type=buy&ticker=" + company;
+                return;
             }
-        });
+        }
     }
 
     function buyStocks() {
@@ -162,8 +151,8 @@
         $('.content form').submit();
     }
 
-    function getRandomCompanyIndex(num) {
-        return Math.floor(Math.random() * num / 6) * 6 + 1;
+    function getRandomCompany(companies) {
+        return companies[Math.floor(Math.random() * companies.length / 6) * 6 + 1];
     }
 
     function reset() {
